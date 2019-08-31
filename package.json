@@ -1,0 +1,31 @@
+{
+  "name": "QuixelToWorldCreator",
+  "version": "1.0.0",
+  "main": "app.ts",
+  "scripts": {
+    "dev": "ts-node-dev app.ts --no-notify --respawn --watch",
+    "start": "ts-node ./app.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2joocy/QuixelToWorldCreator.git"
+  },
+  "dependencies": {
+    "sharp": "0.23.0",
+    "ts-node": "8.3.0",
+    "ts-node-dev": "1.0.0-pre.42",
+    "typescript": "3.4.3",
+    "uuid": "^3.3.3",
+    "xmlbuilder": "^13.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "12.7.3",
+    "@types/sharp": "0.22.2",
+    "@types/xmlbuilder": "11.0.1",
+    "@types/uuid": "3.4.5"
+  },
+  "bugs": {
+    "url": "https://github.com/2joocy/QuixelToWorldCreator/issues"
+  },
+  "homepage": "https://github.com/2joocy/QuixelToWorldCreator#readme"
+}
