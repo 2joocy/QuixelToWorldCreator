@@ -15,3 +15,5 @@ Once NodeJS is installed, open a terminal in the folder of the project and run `
 ### Running
 
 Simply run the following command in a terminal `npm start`
+
+Or if your World Creator Assets and Quixel Assets are placed differently, you can do `npm start <YOUR WC ASSET DIRECTORY> <YOUR QUIXEL ASSET DIRECTORY> `
