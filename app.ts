@@ -25,13 +25,13 @@ const quixelFiles = new Map<string, Array<string>>();
                 return;
             }
             values.forEach(async () => {
-                console.log(`Creating folder for: ${dirName}`);
                 if (!fs.existsSync(`${wcDir}\\${dirName}`)) {
+                    console.log(`Creating folder for: ${dirName}`);
                     fs.mkdirSync(`${wcDir}\\${dirName}`);
                     const albedoThumb = albedo.split(".");
                     const normalThumb = normal.split(".");
                     const displacementThumb = displacement.split(".");
-                    
+
                     await copySync(dirName, albedo, albedoThumb);
                     await copySync(dirName, normal, normalThumb);
                     await copySync(dirName, displacement, displacementThumb);
@@ -42,7 +42,7 @@ const quixelFiles = new Map<string, Array<string>>();
 
                     fs.writeFileSync(
                         `${wcDir}\\${dirName}\\Description.xml`,
-                        await CreateXML(`${albedoThumb[0]}_thumb.${albedoThumb[1]}`, albedo, normal, displacement),
+                        await CreateXML(`${albedoThumb[0]}_thumb.${albedoThumb[1]}`, albedo, normal, displacement)
                     );
                 }
             });
