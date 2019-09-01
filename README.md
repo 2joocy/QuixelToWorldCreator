@@ -1,5 +1,10 @@
 # QuixelToWorldCreator
 
+## NOTICE
+This tool is only compatible with the latest version of the bridge. If you have a custom specified folder, adjust the code as following.
+
+ALWAYS BACKUP YOUR ASSETS BEFORE RUNNING THIS TOOL!
+
 ## Getting Started
 
 ### Installing
