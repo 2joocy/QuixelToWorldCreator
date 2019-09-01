@@ -21,14 +21,10 @@ const quixelFiles = new Map<string, Array<string>>();
             const displacement = values.filter(
                 (file) => file.indexOf("Displacement.jpg") > 0 || file.indexOf("Displacement.png") > 0
             )[0];
-            if (!albedo) {
-                throw Error(`No "Albedo" file could be found.`);
-            } else if (!normal) {
-                throw Error(`No "Normal" file could be found.`);
-            } else if (!displacement) {
-                throw Error(`No "Displacement" file could be found.`);
+            if (!albedo || !normal || !displacement) {
+                return;
             }
-            values.forEach(async (element) => {
+            values.forEach(async () => {
                 console.log(`Creating folder for: ${dirName}`);
                 if (!fs.existsSync(`${wcDir}\\${dirName}`)) {
                     fs.mkdirSync(`${wcDir}\\${dirName}`);
@@ -51,9 +47,7 @@ const quixelFiles = new Map<string, Array<string>>();
                 }
             });
         });
-    } catch (err) {
-        throw err;
-    }
+    } catch (err) {}
 })();
 
 async function copySync(dirName: string, dirFile: string, dirThumb: Array<string>) {
