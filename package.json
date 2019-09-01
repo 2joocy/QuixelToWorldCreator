@@ -1,6 +1,6 @@
 {
   "name": "QuixelToWorldCreator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "app.ts",
   "scripts": {
     "dev": "ts-node-dev app.ts --no-notify --respawn --watch",
