@@ -56,7 +56,6 @@ const quixelFiles = new Map<string, Array<string>>();
             });
         });
     } catch (err) {
-        console.log(err)
     }
 })();
 
