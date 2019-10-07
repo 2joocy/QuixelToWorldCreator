@@ -13,21 +13,24 @@ const quixelFiles = new Map<string, Array<string>>();
 (() => {
     try {
         if (!fs.existsSync(quixelLib)) {
-            console.error(
+            console.log(
+                "\x1b[31m",
                 `There were no textures found under \n${quixelLib} \nEither set it manually, or contact me on discord at William Pfaffe#9520`
             );
             return;
         }
 
         if (!fs.existsSync(wcDir)) {
-            console.error(
+            console.log(
+                "\x1b[31m",
                 `No World Creator directory found under \n${wcDir} \nEither set it manually, or contact me on discord at William Pfaffe#9520`
             );
             return;
         }
 
         if (fs.readdirSync(quixelLib).length < 1) {
-            console.error("No Quixel Textures found!");
+            console.log("\x1b[31m", "No Quixel Textures found!");
+            return;
         }
 
         fs.readdirSync(quixelLib).forEach((dirName) => {
@@ -44,11 +47,11 @@ const quixelFiles = new Map<string, Array<string>>();
                 return;
             }
             if (values.length < 1) {
-                console.log(`No textures found at ${dirName}`);
+                console.log("\x1b[31m", `No textures found at ${dirName}`);
             }
             values.forEach(async () => {
                 if (!fs.existsSync(path.normalize(`${wcDir}/${dirName}`))) {
-                    console.log(`Creating folder for: ${dirName}`);
+                    console.log("\x1b[33m", `Creating folder for: ${dirName}`);
                     fs.mkdirSync(`${wcDir}/${dirName}`);
                     const albedoThumb = albedo.split(".");
                     const normalThumb = normal.split(".");
@@ -69,6 +72,7 @@ const quixelFiles = new Map<string, Array<string>>();
                 }
             });
         });
+        console.log("\x1b[32m", `Finished importing ${quixelFiles.size} textures`);
     } catch (err) {
         console.log(err);
     }
