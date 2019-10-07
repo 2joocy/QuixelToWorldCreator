@@ -1,20 +1,28 @@
 import * as os from "os";
 import * as fs from "fs";
 import * as sharp from "sharp";
-import { CreateXML } from "./helpers/FileHelper";
+import { CreateXML, dirExists } from "./helpers/FileHelper";
 
 const args = process.argv;
 
-const wcDir = args[2] || `${os.homedir}\\Documents\\WorldCreator\\Library\\Textures\\Ground\\WorldCreator`;
-const quixelLib = args[3] || `${os.homedir}\\Documents\\Megascans Library\\Downloaded\\surface`;
+const wcDir = args[2] || `${os.homedir()}\\Documents\\WorldCreator\\Library\\Textures\\Ground\\WorldCreator`;
+const quixelLib = args[3] || `${os.homedir()}\\Documents\\Megascans Library\\Downloaded\\surface`;
 const quixelFiles = new Map<string, Array<string>>();
 
 (() => {
     try {
-        process.stdout.write("Reading World Creator and Quixel Library folders...");
+        if(!dirExists(quixelLib)){
+            console.error(`There were no textures found under \n${quixelLib} \nEither set it manually, or contact me on discord at William Pfaffe#9520`)
+            return;
+        }
+        if(fs.readdirSync(quixelLib).length < 1){
+            console.error("No Quixel Textures found!");
+        }
+
         fs.readdirSync(quixelLib).forEach((dirName) => {
             quixelFiles.set(dirName, fs.readdirSync(`${quixelLib}\\${dirName}`));
         });
+        process.stdout.write("Reading World Creator and Quixel Library folders...");
         quixelFiles.forEach((values, dirName) => {
             const albedo = values.filter((file) => file.indexOf("Albedo") > 0)[0];
             const normal = values.filter((file) => file.indexOf("Normal") > 0)[0];
@@ -47,7 +55,9 @@ const quixelFiles = new Map<string, Array<string>>();
                 }
             });
         });
-    } catch (err) {}
+    } catch (err) {
+        console.log(err)
+    }
 })();
 
 async function copySync(dirName: string, dirFile: string, dirThumb: Array<string>) {

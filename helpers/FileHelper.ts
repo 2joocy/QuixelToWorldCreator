@@ -1,5 +1,6 @@
 import * as builder from "xmlbuilder";
 import * as uuid from "uuid";
+import * as fs from 'fs';
 
 export async function CreateXML(thumb: string, diffName: string, normName: string, disName: string) {
     return await builder
@@ -29,4 +30,16 @@ export async function CreateXML(thumb: string, diffName: string, normName: strin
             },
         })
         .end({ pretty: true });
+}
+
+export function dirExists(dir: string){
+    try{
+        if(fs.readdirSync(dir).length > 1){
+            return true;
+        }else{
+            return false;
+        }
+    } catch(err){
+        return false;
+    }
 }
