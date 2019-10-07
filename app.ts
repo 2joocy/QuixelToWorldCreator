@@ -6,7 +6,7 @@ import { CreateXML, dirExists } from "./helpers/FileHelper";
 const args = process.argv;
 
 const wcDir = args[2] || `${os.homedir()}\\Documents\\WorldCreator\\Library\\Textures\\Ground\\WorldCreator`;
-const quixelLib = args[3] || `${os.homedir()}\\Documents\\Megascans Library\\Downloaded\\surface`;
+const quixelLib = args[3] || `${os.homedir()}/Documents/Megascans Library/Downloaded/surface`;
 const quixelFiles = new Map<string, Array<string>>();
 
 (() => {
