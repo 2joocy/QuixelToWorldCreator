@@ -1,32 +1,37 @@
 import * as os from "os";
 import * as fs from "fs";
+import * as path from "path";
 import * as sharp from "sharp";
 import { CreateXML, dirExists } from "./helpers/FileHelper";
 
 const args = process.argv;
 
-const wcDir = args[2] || `${os.homedir()}/DocumentWorldCreator/Library/Textures/Ground/WorldCreator`;
-const quixelLib = args[3] || `${os.homedir()}/Documents/Megascans Library/Downloaded/surface`;
+const wcDir = args[2] || path.normalize(`${os.homedir()}/Documents/WorldCreator/Library/Textures/Ground/WorldCreator`);
+const quixelLib = args[3] || path.normalize(`${os.homedir()}/Documents/Megascans Library/Downloaded/surface`);
 const quixelFiles = new Map<string, Array<string>>();
 
 (() => {
     try {
-        if(!fs.existsSync(quixelLib)){
-            console.error(`There were no textures found under \n${quixelLib} \nEither set it manually, or contact me on discord at William Pfaffe#9520`)
+        if (!fs.existsSync(quixelLib)) {
+            console.error(
+                `There were no textures found under \n${quixelLib} \nEither set it manually, or contact me on discord at William Pfaffe#9520`
+            );
             return;
         }
 
-        if(!fs.existsSync(wcDir)){
-            console.error(`No World Creator directory found under \n${wcDir} \nEither set it manually, or contact me on discord at William Pfaffe#9520`)
+        if (!fs.existsSync(wcDir)) {
+            console.error(
+                `No World Creator directory found under \n${wcDir} \nEither set it manually, or contact me on discord at William Pfaffe#9520`
+            );
             return;
         }
 
-        if(fs.readdirSync(quixelLib).length < 1){
+        if (fs.readdirSync(quixelLib).length < 1) {
             console.error("No Quixel Textures found!");
         }
 
         fs.readdirSync(quixelLib).forEach((dirName) => {
-            quixelFiles.set(dirName, fs.readdirSync(`${quixelLib}/${dirName}`));
+            quixelFiles.set(dirName, fs.readdirSync(path.normalize(`${quixelLib}/${dirName}`)));
         });
         process.stdout.write("Reading World Creator and Quixel Library folders...");
         quixelFiles.forEach((values, dirName) => {
@@ -38,11 +43,11 @@ const quixelFiles = new Map<string, Array<string>>();
             if (!albedo || !normal || !displacement) {
                 return;
             }
-            if(values.length < 1){
-                console.log(`No textures found at ${dirName}`)
+            if (values.length < 1) {
+                console.log(`No textures found at ${dirName}`);
             }
             values.forEach(async () => {
-                if (!fs.existsSync(`${wcDir}/${dirName}`)) {
+                if (!fs.existsSync(path.normalize(`${wcDir}/${dirName}`))) {
                     console.log(`Creating folder for: ${dirName}`);
                     fs.mkdirSync(`${wcDir}/${dirName}`);
                     const albedoThumb = albedo.split(".");
@@ -58,7 +63,7 @@ const quixelFiles = new Map<string, Array<string>>();
                         .toFile(`${wcDir}/${dirName}/${displacementThumb[0]}_thumb.${displacementThumb[1]}`);
 
                     fs.writeFileSync(
-                        `${wcDir}/${dirName}/Description.xml`,
+                        path.normalize(`${wcDir}/${dirName}/Description.xml`),
                         await CreateXML(`${albedoThumb[0]}_thumb.${albedoThumb[1]}`, albedo, normal, displacement)
                     );
                 }
@@ -70,8 +75,11 @@ const quixelFiles = new Map<string, Array<string>>();
 })();
 
 async function copySync(dirName: string, dirFile: string, dirThumb: Array<string>) {
-    fs.copyFileSync(`${quixelLib}/${dirName}/${dirFile}`, `${wcDir}/${dirName}/${dirFile}`);
-    await sharp(`${quixelLib}/${dirName}/${dirFile}`)
+    fs.copyFileSync(
+        path.normalize(`${quixelLib}/${dirName}/${dirFile}`),
+        path.normalize(`${wcDir}/${dirName}/${dirFile}`)
+    );
+    await sharp(path.normalize(`${quixelLib}/${dirName}/${dirFile}`))
         .resize(128, 128)
-        .toFile(`${wcDir}/${dirName}/${dirThumb[0]}_thumb.${dirThumb[1]}`);
+        .toFile(path.normalize(`${wcDir}/${dirName}/${dirThumb[0]}_thumb.${dirThumb[1]}`));
 }
